@@ -3,7 +3,6 @@ import { db } from '@/lib/db';
 import Categories from './_components/categories';
 import SearchInput from '@/components/search-input';
 import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
 import { getCourses } from '@/actions/get-courses';
 import CoursesList from './_components/courses-list';
 import Sidebar from '../dashboard/_components/sidebar';
@@ -20,10 +19,6 @@ interface SearchPageProps {
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const { userId } = auth();
-
-  if (!userId) {
-    return redirect('/');
-  }
 
   const categories = await db.category.findMany({
     orderBy: {

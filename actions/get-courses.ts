@@ -9,7 +9,7 @@ export type CourseWithProgress = Course & {
 };
 
 export type GetCourses = {
-  userId: string;
+  userId: string | null;
   title?: string;
   categoryId?: string;
 };
@@ -38,17 +38,24 @@ export const getCourses = async ({
             id: true,
           },
         },
-        purchases: {
-          where: {
-            userId,
-          },
-        },
+        purchases: userId
+          ? {
+              where: {
+                userId,
+              },
+            }
+          : undefined,
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
-
+    if (!userId) {
+      return courses.map((course) => ({
+        ...course,
+        progress: null,
+      }));
+    }
     const coursesWithProgress = await Promise.all(
       courses.map(async (course) => {
         if (course.purchases.length === 0) {

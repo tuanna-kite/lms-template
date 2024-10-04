@@ -8,7 +8,6 @@ import {
   Form,
   FormControl,
   FormField,
-  FormMessage,
   FormItem,
   FormDescription,
 } from '@/components/ui/form';
@@ -19,8 +18,6 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Chapter } from '@prisma/client';
-import { Editor } from '@/components/editor';
-import { Preview } from '@/components/preview';
 import { Checkbox } from '@/components/ui/checkbox';
 
 interface ChapterAccessFormProps {
@@ -33,7 +30,11 @@ const formSchema = z.object({
   isFree: z.boolean().default(false),
 });
 
-const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFormProps) => {
+const ChapterAccessForm = ({
+  initialData,
+  courseId,
+  chapterId,
+}: ChapterAccessFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
@@ -76,24 +77,38 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFo
         </Button>
       </div>
       {!isEditing && (
-        <div className={cn('text-sm mt-2', !initialData.isFree && 'text-slate-500 italic')}>
-          {initialData.isFree ? 'This chapter is free for preview' : 'This chapter is not free'}
+        <div
+          className={cn(
+            'text-sm mt-2',
+            !initialData.isFree && 'text-slate-500 italic'
+          )}
+        >
+          {initialData.isFree
+            ? 'This chapter is free for preview'
+            : 'This chapter is not free'}
         </div>
       )}
       {isEditing && (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 mt-4'>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-4 mt-4'
+          >
             <FormField
               control={form.control}
               name='isFree'
               render={({ field }) => (
                 <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
                   <FormControl>
-                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
                     <FormDescription>
-                      Check this box if you want to make this chapter free for all users.
+                      Check this box if you want to make this chapter free for
+                      all users.
                     </FormDescription>
                   </div>
                 </FormItem>

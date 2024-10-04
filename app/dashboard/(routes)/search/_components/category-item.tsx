@@ -10,7 +10,7 @@ interface CategoryItemProps {
   value: string;
 }
 
-const CategoryItem = ({ label, icon: Icon, value }: CategoryItemProps) => {
+const CategoryItem = ({ label, value }: CategoryItemProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();

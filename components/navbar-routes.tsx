@@ -35,7 +35,18 @@ const NavbarRoutes = () => {
             </Button>
           </Link>
         ) : null}
-        <UserButton />
+        {userId ? (
+          <UserButton />
+        ) : (
+          <div className='space-x-4'>
+            <Link href='/sign-in'>
+              <Button variant='ghost'>Sign In</Button>
+            </Link>
+            <Link href='/sign-up'>
+              <Button>Sign Up</Button>
+            </Link>
+          </div>
+        )}
       </div>
     </>
   );
